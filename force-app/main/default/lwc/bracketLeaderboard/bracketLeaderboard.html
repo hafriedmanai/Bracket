@@ -1,0 +1,57 @@
+<template>
+    <div class="lb">
+        <template lwc:if={isLoading}>
+            <div class="lb-loading">
+                <lightning-spinner alternative-text="Loading leaderboard" size="small"></lightning-spinner>
+            </div>
+        </template>
+        <template lwc:elseif={error}>
+            <p class="slds-text-color_error slds-p-around_medium">{error}</p>
+        </template>
+        <template lwc:elseif={hasRows}>
+            <ol class="lb-list">
+                <template for:each={rows} for:item="row">
+                    <li key={row.entryId} class={row.rowClass}>
+                        <span class={row.rankClass}>{row.rank}</span>
+                        <div class="lb-main">
+                            <div class="lb-name">
+                                {row.entryName}
+                                <template lwc:if={row.isMine}>
+                                    <span class="slds-badge slds-m-left_xx-small">You</span>
+                                </template>
+                            </div>
+                            <div class="lb-meta">
+                                <span>{row.ownerName}</span>
+                                <span aria-hidden="true">·</span>
+                                <span class={row.championClass}>&#127942; {row.championDisplay}</span>
+                                <span aria-hidden="true">·</span>
+                                <span>{row.progress}</span>
+                            </div>
+                        </div>
+                        <div class="lb-score">
+                            <div class="lb-points">{row.score}</div>
+                            <div class="lb-max">max {row.maxPossible}</div>
+                        </div>
+                        <template lwc:if={row.canView}>
+                            <lightning-button-icon
+                                icon-name="utility:chevronright"
+                                variant="bare"
+                                alternative-text={row.viewLabel}
+                                data-id={row.entryId}
+                                onclick={handleView}
+                                class="lb-view"
+                            ></lightning-button-icon>
+                        </template>
+                    </li>
+                </template>
+            </ol>
+            <p class="lb-foot">{footnote}</p>
+        </template>
+        <template lwc:else>
+            <div class="lb-empty">
+                <p class="lb-empty__title">No brackets yet</p>
+                <p>Be the first: fill out your bracket and tap Save.</p>
+            </div>
+        </template>
+    </div>
+</template>

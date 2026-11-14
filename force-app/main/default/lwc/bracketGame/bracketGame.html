@@ -1,0 +1,32 @@
+<template>
+    <div class={game.className}>
+        <template lwc:if={hasHeader}>
+            <div class="game__header">
+                <span class="game__label">{label}</span>
+                <span class="game__points">{points}</span>
+            </div>
+        </template>
+        <template for:each={game.teams} for:item="team">
+            <button
+                key={team.key}
+                type="button"
+                class={team.className}
+                data-game-id={team.gameId}
+                data-team-id={team.teamId}
+                aria-label={team.ariaLabel}
+                aria-pressed={team.isWinner}
+                disabled={team.disabled}
+                onclick={handleTap}
+            >
+                <span class="team__seed">{team.seed}</span>
+                <span class="team__name">{team.name}</span>
+                <template lwc:if={team.isWinner}>
+                    <span class="team__check" aria-hidden="true">&#10003;</span>
+                </template>
+            </button>
+        </template>
+        <template lwc:if={game.note}>
+            <div class="game__note">{game.note}</div>
+        </template>
+    </div>
+</template>

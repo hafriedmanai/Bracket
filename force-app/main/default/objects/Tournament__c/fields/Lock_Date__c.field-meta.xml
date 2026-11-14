@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lock_Date__c</fullName>
+    <label>Picks Lock At</label>
+    <inlineHelpText>Brackets can no longer be edited after this date/time (typically tip-off of the first Round of 64 game).</inlineHelpText>
+    <required>false</required>
+    <type>DateTime</type>
+</CustomField>

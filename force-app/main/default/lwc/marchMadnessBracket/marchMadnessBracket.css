@@ -1,0 +1,320 @@
+:host {
+    display: block;
+    --bracket-border: #d8dde6;
+    --bracket-surface: #ffffff;
+    --bracket-accent: #0176d3;
+}
+
+.bracket-card {
+    overflow: hidden;
+}
+
+/* ---------- header ---------- */
+.bracket-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: linear-gradient(135deg, #032d60 0%, #0b5cab 100%);
+    color: #ffffff;
+}
+
+.bracket-header__title {
+    display: flex;
+    align-items: center;
+    font-size: 1.125rem;
+    font-weight: 700;
+}
+
+.bracket-header__subtitle {
+    margin-top: 0.125rem;
+    font-size: 0.8125rem;
+    opacity: 0.85;
+}
+
+.view-toggle {
+    display: inline-flex;
+    padding: 0.125rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.view-toggle__btn {
+    min-height: 2.25rem;
+    padding: 0 1rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: #ffffff;
+    font: inherit;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.view-toggle__btn_active {
+    background: #ffffff;
+    color: #032d60;
+}
+
+.bracket-loading {
+    position: relative;
+    min-height: 12rem;
+}
+
+/* ---------- toolbar ---------- */
+.bracket-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--bracket-border);
+}
+
+.progress {
+    flex: 1 1 14rem;
+    min-width: 12rem;
+}
+
+.progress__label {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+}
+
+.progress__score {
+    color: #2e844a;
+}
+
+.progress__track {
+    height: 0.5rem;
+    border-radius: 999px;
+    background: #ecebea;
+    overflow: hidden;
+}
+
+.progress__fill {
+    height: 100%;
+    background: var(--bracket-accent);
+    transition: width 200ms ease;
+}
+
+.bracket-toolbar__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.unsaved {
+    padding: 0.375rem 1rem;
+    font-size: 0.75rem;
+    color: #8c4b02;
+    background: #fef1e6;
+    border-bottom: 1px solid #f9e3b6;
+}
+
+/* ---------- region tabs ---------- */
+.region-tabs {
+    display: flex;
+    gap: 0.375rem;
+    padding: 0.75rem 1rem 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.region-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.region-tab {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 5.5rem;
+    min-height: 2.75rem;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid var(--bracket-border);
+    border-radius: 0.5rem;
+    background: #ffffff;
+    font: inherit;
+    cursor: pointer;
+}
+
+.region-tab__label {
+    font-size: 0.8125rem;
+    font-weight: 700;
+}
+
+.region-tab__count {
+    font-size: 0.7rem;
+    color: #706e6b;
+}
+
+.region-tab_active {
+    border-color: var(--bracket-accent);
+    background: var(--bracket-accent);
+    color: #ffffff;
+}
+
+.region-tab_active .region-tab__count {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* ---------- region bracket ---------- */
+.region {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(10.5rem, 1fr));
+    gap: 0.75rem;
+    padding: 0.75rem 1rem 0.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+}
+
+.round {
+    display: flex;
+    flex-direction: column;
+    scroll-snap-align: start;
+}
+
+.round__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0 0.125rem 0.5rem;
+    border-bottom: 2px solid var(--bracket-border);
+    margin-bottom: 0.5rem;
+}
+
+.round__name {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.round__points {
+    font-size: 0.7rem;
+    color: #706e6b;
+}
+
+/* Later rounds spread out so each game sits between the two games feeding it. */
+.round__games {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 0.5rem;
+}
+
+.round__slot {
+    position: relative;
+}
+
+/* simple connector stub to the next round */
+.round:not(.round_4) .round__slot::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -0.75rem;
+    width: 0.75rem;
+    border-top: 2px solid var(--bracket-border);
+}
+
+.hint {
+    padding: 0 1rem 0.75rem;
+    font-size: 0.75rem;
+    color: #706e6b;
+}
+
+/* ---------- Final Four ---------- */
+.final-four {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr 1fr;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.champion {
+    margin-top: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    background: linear-gradient(135deg, #fff8e1 0%, #ffe8a3 100%);
+    border: 1px solid #f4bc25;
+}
+
+.champion__trophy {
+    font-size: 1.75rem;
+    line-height: 1;
+}
+
+.champion__label {
+    margin-top: 0.25rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #8c4b02;
+}
+
+.champion__name {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.tiebreaker {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 0.75rem;
+    padding: 0 1rem 1rem;
+}
+
+/* ---------- phones ---------- */
+@media (max-width: 40em) {
+    .bracket-header,
+    .bracket-toolbar {
+        padding: 0.75rem;
+    }
+
+    .view-toggle {
+        width: 100%;
+    }
+
+    .view-toggle__btn {
+        flex: 1 1 50%;
+    }
+
+    .bracket-toolbar__actions {
+        width: 100%;
+    }
+
+    .region {
+        grid-template-columns: repeat(4, 78%);
+        padding: 0.75rem;
+    }
+
+    .final-four {
+        grid-template-columns: 1fr;
+    }
+
+    .final-four__title {
+        order: 3;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .progress__fill {
+        transition: none;
+    }
+}

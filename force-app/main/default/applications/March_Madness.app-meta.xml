@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#032D60</headerColor>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <description>College basketball bracket pool: tap teams to advance them, then follow the leaderboard.</description>
+    <formFactors>Small</formFactors>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <label>March Madness</label>
+    <navType>Standard</navType>
+    <tabs>Bracket_Pool</tabs>
+    <tabs>Bracket_Results</tabs>
+    <tabs>Tournament__c</tabs>
+    <tabs>Team__c</tabs>
+    <tabs>Bracket_Entry__c</tabs>
+    <uiType>Lightning</uiType>
+</CustomApplication>

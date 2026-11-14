@@ -1,0 +1,14 @@
+{
+  "name": "march-madness-bracket",
+  "private": true,
+  "version": "1.0.0",
+  "description": "March Madness bracket pool for Salesforce",
+  "scripts": {
+    "test": "sfdx-lwc-jest",
+    "test:unit": "sfdx-lwc-jest",
+    "test:coverage": "sfdx-lwc-jest --coverage"
+  },
+  "devDependencies": {
+    "@salesforce/sfdx-lwc-jest": "^7.0.1"
+  }
+}

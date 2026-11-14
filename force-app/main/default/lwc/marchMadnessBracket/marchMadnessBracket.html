@@ -1,0 +1,191 @@
+<template>
+    <article class="slds-card bracket-card">
+        <!-- Header -->
+        <div class="bracket-header">
+            <div class="bracket-header__titles">
+                <h2 class="bracket-header__title">
+                    <lightning-icon icon-name="custom:custom48" size="small" class="slds-m-right_x-small"></lightning-icon>
+                    <span>{title}</span>
+                    <template lwc:if={isResultsMode}>
+                        <span class="slds-badge slds-badge_inverse slds-m-left_x-small">Results Mode</span>
+                    </template>
+                </h2>
+                <p class="bracket-header__subtitle">{subtitle}</p>
+            </div>
+            <div class="view-toggle" role="group" aria-label="Choose view">
+                <button type="button" class={bracketViewClass} onclick={handleShowBracket}>{bracketViewLabel}</button>
+                <button type="button" class={leaderboardViewClass} onclick={handleShowLeaderboard}>Leaderboard</button>
+            </div>
+        </div>
+
+        <template lwc:if={isLoading}>
+            <div class="bracket-loading">
+                <lightning-spinner alternative-text="Loading bracket" size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <template lwc:elseif={error}>
+            <div class="slds-p-around_medium">
+                <div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
+                    <h2>{error}</h2>
+                </div>
+            </div>
+        </template>
+
+        <template lwc:else>
+            <!-- Leaderboard -->
+            <template lwc:if={showLeaderboard}>
+                <c-bracket-leaderboard
+                    tournament-id={data.tournamentId}
+                    is-locked={data.isLocked}
+                    is-commissioner={data.isCommissioner}
+                    onviewentry={handleViewEntry}
+                ></c-bracket-leaderboard>
+            </template>
+
+            <!-- Bracket -->
+            <template lwc:if={showBracket}>
+                <div class="bracket-toolbar">
+                    <div class="progress">
+                        <div class="progress__label">
+                            <span>{progressLabel}</span>
+                            <template lwc:if={scoreSummary}>
+                                <span class="progress__score">{scoreSummary}</span>
+                            </template>
+                        </div>
+                        <div class="progress__track" aria-hidden="true">
+                            <div class="progress__fill" style={progressStyle}></div>
+                        </div>
+                    </div>
+                    <div class="bracket-toolbar__actions">
+                        <template lwc:if={isViewingOther}>
+                            <lightning-button label="Back to My Bracket" icon-name="utility:back" onclick={handleBackToMine}></lightning-button>
+                        </template>
+                        <template lwc:if={canEdit}>
+                            <template lwc:if={showFillFavorites}>
+                                <lightning-button
+                                    label="Fill Favorites"
+                                    title="Fill every empty game with the better seed"
+                                    icon-name="utility:magicwand"
+                                    onclick={handleFillChalk}
+                                ></lightning-button>
+                            </template>
+                            <lightning-button label="Clear" icon-name="utility:clear" onclick={handleReset}></lightning-button>
+                            <template lwc:if={isDirty}>
+                                <lightning-button label="Undo Changes" icon-name="utility:undo" onclick={handleRevert}></lightning-button>
+                            </template>
+                            <lightning-button
+                                variant="brand"
+                                label={saveLabel}
+                                icon-name="utility:save"
+                                disabled={saveDisabled}
+                                onclick={handleSave}
+                            ></lightning-button>
+                        </template>
+                    </div>
+                </div>
+
+                <template lwc:if={isDirty}>
+                    <div class="unsaved" role="status">You have unsaved changes.</div>
+                </template>
+
+                <!-- Region / Final Four tabs -->
+                <div class="region-tabs" role="tablist">
+                    <template for:each={regionTabs} for:item="tab">
+                        <button
+                            key={tab.key}
+                            type="button"
+                            role="tab"
+                            class={tab.className}
+                            data-key={tab.key}
+                            onclick={handleTabClick}
+                        >
+                            <span class="region-tab__label">{tab.label}</span>
+                            <span class="region-tab__count">{tab.count}</span>
+                        </button>
+                    </template>
+                </div>
+
+                <template lwc:if={isFinalFourTab}>
+                    <div class="final-four">
+                        <div class="final-four__semi">
+                            <c-bracket-game
+                                game={finalFourGames.semiOne}
+                                label={finalFourGames.semiOne.label}
+                                points={finalFourGames.semiPoints}
+                                onteamtap={handleTeamTap}
+                            ></c-bracket-game>
+                        </div>
+                        <div class="final-four__title">
+                            <c-bracket-game
+                                game={finalFourGames.title}
+                                label={finalFourGames.title.label}
+                                points={finalFourGames.titlePoints}
+                                onteamtap={handleTeamTap}
+                            ></c-bracket-game>
+                            <div class="champion">
+                                <div class="champion__trophy" aria-hidden="true">&#127942;</div>
+                                <div class="champion__label">{championLabel}</div>
+                                <div class="champion__name">{championDisplay}</div>
+                            </div>
+                        </div>
+                        <div class="final-four__semi">
+                            <c-bracket-game
+                                game={finalFourGames.semiTwo}
+                                label={finalFourGames.semiTwo.label}
+                                points={finalFourGames.semiPoints}
+                                onteamtap={handleTeamTap}
+                            ></c-bracket-game>
+                        </div>
+                    </div>
+
+                    <div class="tiebreaker">
+                        <lightning-input
+                            type="number"
+                            min="0"
+                            max="400"
+                            label={tiebreakerLabel}
+                            field-level-help={tiebreakerHelp}
+                            value={tiebreaker}
+                            read-only={readOnly}
+                            onchange={handleTiebreakerChange}
+                        ></lightning-input>
+                        <template lwc:if={showEntryName}>
+                            <lightning-input
+                                label="Bracket name"
+                                max-length="80"
+                                placeholder="e.g. Cinderella Story"
+                                value={entryName}
+                                onchange={handleNameChange}
+                            ></lightning-input>
+                        </template>
+                    </div>
+                </template>
+
+                <template lwc:else>
+                    <div class="region" tabindex="0" aria-label="Region bracket. Scroll sideways to see later rounds.">
+                        <template for:each={regionRounds} for:item="round">
+                            <section key={round.key} class={round.className}>
+                                <header class="round__header">
+                                    <span class="round__name">{round.name}</span>
+                                    <span class="round__points">{round.points}</span>
+                                </header>
+                                <div class="round__games">
+                                    <template for:each={round.games} for:item="game">
+                                        <div key={game.key} class="round__slot">
+                                            <c-bracket-game game={game} onteamtap={handleTeamTap}></c-bracket-game>
+                                        </div>
+                                    </template>
+                                </div>
+                            </section>
+                        </template>
+                    </div>
+                    <p class="hint">
+                        <template lwc:if={canEdit}>Tap a team to advance it. Tap it again to undo.</template>
+                        <template lwc:else>Swipe sideways to see later rounds.</template>
+                    </p>
+                </template>
+            </template>
+        </template>
+    </article>
+</template>

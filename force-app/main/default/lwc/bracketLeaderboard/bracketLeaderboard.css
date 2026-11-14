@@ -1,0 +1,107 @@
+.lb {
+    padding: 0.5rem 1rem 1rem;
+}
+
+.lb-loading {
+    position: relative;
+    min-height: 6rem;
+}
+
+.lb-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.lb-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.625rem 0.25rem;
+    border-bottom: 1px solid #ecebea;
+}
+
+.lb-row_mine {
+    background: #eef4ff;
+    border-radius: 0.375rem;
+}
+
+.lb-rank {
+    flex: 0 0 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    border-radius: 50%;
+    text-align: center;
+    font-weight: 700;
+    background: #ecebea;
+}
+
+.lb-rank_1 {
+    background: #f4bc25;
+}
+
+.lb-rank_2 {
+    background: #c9c7c5;
+}
+
+.lb-rank_3 {
+    background: #e3a372;
+}
+
+.lb-main {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.lb-name {
+    font-weight: 700;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.lb-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    color: #706e6b;
+}
+
+.lb-champ_out {
+    text-decoration: line-through;
+    color: #ba0517;
+}
+
+.lb-score {
+    flex: 0 0 auto;
+    text-align: right;
+}
+
+.lb-points {
+    font-size: 1.125rem;
+    font-weight: 700;
+}
+
+.lb-max {
+    font-size: 0.7rem;
+    color: #706e6b;
+}
+
+.lb-foot {
+    margin-top: 0.75rem;
+    font-size: 0.75rem;
+    color: #706e6b;
+}
+
+.lb-empty {
+    padding: 2rem 1rem;
+    text-align: center;
+    color: #706e6b;
+}
+
+.lb-empty__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #181818;
+}
