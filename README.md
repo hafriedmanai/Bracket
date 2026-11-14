@@ -38,6 +38,7 @@ taps the real winners as games finish, and every bracket is re-scored on a live 
 | `lwc/bracketGame` | One game card with two tappable teams |
 | `lwc/bracketLeaderboard` | Leaderboard |
 | `lwc/bracketLogic` | Bracket logic shared by the components (advancing, clearing later picks, scoring) |
+| `layouts/` | Page layouts for Tournament, Team and Bracket Entry, with Teams and Bracket Entries related lists |
 | `permissionsets/` | **Bracket Player** and **Bracket Commissioner** |
 | `applications/March_Madness` | Lightning app with *Bracket Pool* and *Enter Results* tabs |
 | `scripts/apex/seedTournament.apex` | Sample tournament with 64 teams |
